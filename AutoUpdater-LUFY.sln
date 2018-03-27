@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2027
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoUpdater-LUFY", "AutoUpdater-LUFY\AutoUpdater-LUFY.csproj", "{2EDCA018-A9C9-4417-B5A1-E3A4A27FE7C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsole", "TestConsole\TestConsole.csproj", "{F8B59D45-5FAB-4AC4-92A1-1321C6BB4830}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2EDCA018-A9C9-4417-B5A1-E3A4A27FE7C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EDCA018-A9C9-4417-B5A1-E3A4A27FE7C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EDCA018-A9C9-4417-B5A1-E3A4A27FE7C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EDCA018-A9C9-4417-B5A1-E3A4A27FE7C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F8B59D45-5FAB-4AC4-92A1-1321C6BB4830}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F8B59D45-5FAB-4AC4-92A1-1321C6BB4830}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F8B59D45-5FAB-4AC4-92A1-1321C6BB4830}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F8B59D45-5FAB-4AC4-92A1-1321C6BB4830}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C61FC4AB-4767-41A6-9EBF-74B140C1A20B}
+	EndGlobalSection
+EndGlobal
