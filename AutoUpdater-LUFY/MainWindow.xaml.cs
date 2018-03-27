@@ -37,6 +37,7 @@ namespace AutoUpdater_LUFY
         string startexe = nameof(TestConsole)+".exe";
         //新版本号  
         string version = "20180327002";
+        private BackgroundWorker m_BackgroundWorker;// 申明后台对象
         public MainWindow()
         {
             InitializeComponent();
@@ -44,42 +45,60 @@ namespace AutoUpdater_LUFY
 
         private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.Invoke(new Action(() => {
-                filename = url.Substring(url.LastIndexOf("/") + 1);
-                //下载文件存放在临时文件夹中  
-                filepath = Environment.GetEnvironmentVariable("TEMP") + @"/" + filename;
+            m_BackgroundWorker = new BackgroundWorker(); // 实例化后台对象
 
-                if (filename != "")
-                {
-                    try
-                    {
-                        KillExeProcess();
-                        SetprogressBar(5);
-                        DownloadFile();
-                        SetprogressBar(25);
-                        UnZipFile();
-                        SetprogressBar(10);
-                        UpdateVersionInfo();
-                        SetprogressBar(10);
-                        OpenUpdatedExe();
-                        SetprogressBar(10);
-                        writeLog("更新成功！");
-                        this.Close();
-                    }
-                    catch (Exception ex)
-                    {
-                        writeLog(ex.Message);
-                    }
+            m_BackgroundWorker.WorkerReportsProgress = true; // 设置可以通告进度
+            m_BackgroundWorker.WorkerSupportsCancellation = true; // 设置可以取消
 
-                }
-                else
-                {
-                    writeLog("更新失败：下载的文件名为空！");
-                    return;
-                }
-            }));
+            m_BackgroundWorker.DoWork += UpdateTask;
+            m_BackgroundWorker.RunWorkerCompleted += CompletedWork;
+
+            m_BackgroundWorker.RunWorkerAsync();
+          
             
         }
+
+        private void CompletedWork(object sender, RunWorkerCompletedEventArgs e)
+        {
+            writeLog("更新成功！");
+            this.Close();
+        }
+
+        private void UpdateTask(object sender, DoWorkEventArgs e)
+        {
+            filename = url.Substring(url.LastIndexOf("/") + 1);
+            //下载文件存放在临时文件夹中  
+            filepath = Environment.GetEnvironmentVariable("TEMP") + @"/" + filename;
+
+            if (filename != "")
+            {
+                try
+                {
+                    KillExeProcess();
+                    SetprogressBar(5);
+                    DownloadFile();
+                    SetprogressBar(25);
+                    UnZipFile();
+                    SetprogressBar(10);
+                    UpdateVersionInfo();
+                    SetprogressBar(10);
+                    OpenUpdatedExe();
+                    SetprogressBar(10);
+                   
+                }
+                catch (Exception ex)
+                {
+                    writeLog(ex.Message);
+                }
+
+            }
+            else
+            {
+                writeLog("更新失败：下载的文件名为空！");
+                return;
+            }
+        }
+
         private void KillExeProcess()
         {
             //后缀起始位置  
@@ -170,30 +189,6 @@ namespace AutoUpdater_LUFY
                 throw new Exception("打开更新后程序出错：" + ex.Message);
             }
         }
-
-        #region 不好用  
-        /// <summary>  
-        /// 解压压缩包，格式必须是*.zip,否则不能解压  
-        /// 需要添加System32下的Shell32.dll  
-        /// 不好用总是弹出来对话框  
-        /// </summary>  
-        //private void UnZip()  
-        //{  
-        //    try  
-        //    {  
-        //        ShellClass sc = new ShellClass();  
-        //        Folder SrcFolder = sc.NameSpace(filepath);  
-        //        Folder DestFolder = sc.NameSpace(System.Environment.CurrentDirectory);  
-        //        FolderItems items = SrcFolder.Items();  
-        //        DestFolder.CopyHere(items, 16);  
-
-        //    }  
-        //    catch (Exception ex)  
-        //    {  
-        //        MessageBox.Show("解压缩更新包出错：" + ex.Message, "提示信息", MessageBoxButton.OK, MessageBoxImage.Error);  
-        //    }  
-        //}  
-        #endregion
 
         #region 解压zip  
         /// <summary>  
